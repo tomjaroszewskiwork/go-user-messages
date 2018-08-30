@@ -16,7 +16,9 @@ func InitDB() {
 		panic("failed to connect database")
 	}
 
+	db.Debug()
+
 	// Migrate the schema
-	db.Debug().DropTableIfExists(&UserMessage{})
-	db.Debug().AutoMigrate(&UserMessage{})
+	//db.Debug().DropTableIfExists(&UserMessage{})
+	db.AutoMigrate(&UserMessage{})
 }

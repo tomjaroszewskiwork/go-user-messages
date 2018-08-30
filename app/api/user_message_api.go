@@ -33,7 +33,14 @@ func AddMessage(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	userID := vars["userId"]
-	userMessage := store.AddMessage(userID, messageBody.Message)
+	userMessage, err := store.AddMessage(userID, messageBody.Message)
+	if err != nil {
+		fmt.Println(err.Error())
+		http.Error(w, "Saving failed", http.StatusInternalServerError)
+		return
+	}
+
+	// Returns the location of the newly created message
 	newLocation := fmt.Sprintf("%s%s/%d", r.Host, r.URL.Path, userMessage.MessageID)
 	w.Header().Set("Location", path.Clean(newLocation))
 	w.WriteHeader(http.StatusCreated)
@@ -54,20 +61,29 @@ func GetFunFacts(w http.ResponseWriter, r *http.Request) {
 // GetMessage gets a specific message
 func GetMessage(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	//userId := vars["userId"]
+	userID := vars["userId"]
 	messageIDtring := vars["messageId"]
 	messageID, err := strconv.ParseInt(messageIDtring, 10, 64)
 	if err != nil {
 		http.Error(w, "Invalid message id", http.StatusBadRequest)
 		return
 	}
-	userMessage := store.GetMessage(messageID)
-	bytes, _ := json.Marshal(userMessage)
+	userMessage, err := store.GetMessage(userID, messageID)
+	if err != nil {
+		fmt.Println(err.Error())
+		http.Error(w, "Pulling store failed", http.StatusInternalServerError)
+		return
+	}
+	if userMessage.MessageID == 0 {
+		http.Error(w, "Message not found", http.StatusNotFound)
+		return
+	}
+	bytes, err := json.Marshal(userMessage)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	json.NewEncoder(w).Encode(bytes)
+	w.Write(bytes)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 }

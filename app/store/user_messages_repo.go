@@ -1,16 +1,22 @@
 package store
 
+import gorm "github.com/jinzhu/gorm"
+
 // GetMessage pulls the message from the store
-func GetMessage(messageID int64) *UserMessage {
+func GetMessage(userID string, messageID int64) (*UserMessage, error) {
 	var userMessage UserMessage
-	db.First(&userMessage, messageID)
-	// TOOD add user check
-	return &userMessage
+	err := db.Where("user_id = ? AND message_id = ?", userID, messageID).First(&userMessage).Error
+	// Eats the not found to make things cleaner
+	if gorm.IsRecordNotFoundError(err) {
+		err = nil
+	}
+
+	return &userMessage, err
 }
 
 // AddMessage adds a message to the store
-func AddMessage(userID string, message string) *UserMessage {
+func AddMessage(userID string, message string) (*UserMessage, error) {
 	userMessage := UserMessage{UserID: userID, Message: message}
-	db.Debug().Save(&userMessage)
-	return &userMessage
+	err := db.Create(&userMessage).Error
+	return &userMessage, err
 }

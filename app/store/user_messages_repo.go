@@ -1,6 +1,10 @@
 package store
 
-import gorm "github.com/jinzhu/gorm"
+import (
+	"time"
+
+	gorm "github.com/jinzhu/gorm"
+)
 
 // GetMessage pulls the message from the store
 func GetMessage(userID string, messageID int64) (*UserMessage, error) {
@@ -16,7 +20,7 @@ func GetMessage(userID string, messageID int64) (*UserMessage, error) {
 
 // AddMessage adds a message to the store
 func AddMessage(userID string, message string) (*UserMessage, error) {
-	userMessage := UserMessage{UserID: userID, Message: message}
+	userMessage := UserMessage{UserID: userID, Message: message, GeneratedAt: time.Now().UTC()}
 	err := db.Create(&userMessage).Error
 	return &userMessage, err
 }

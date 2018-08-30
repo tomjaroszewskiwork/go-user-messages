@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Route holds REST path defintions
 type Route struct {
 	Name        string
 	Method      string
@@ -14,10 +15,12 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
+// Routes all paths for the app
 type Routes []Route
 
+// NewRouter connects the paths in the app
 func NewRouter() *mux.Router {
-	router := mux.NewRouter()
+	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.HandlerFunc

@@ -8,7 +8,7 @@ import (
 type UserMessage struct {
 
 	//The time the message was stored at
-	GeneratedAt time.Time `json:"generatedAt"`
+	GeneratedAt time.Time `json:"generatedAt" gorm:"DEFAULT:current_timestamp"`
 
 	// Message content
 	Message string `json:"message" gorm:"not_null"`
@@ -17,5 +17,5 @@ type UserMessage struct {
 	MessageID int64 `json:"messageId" gorm:"PRIMARY_KEY"`
 
 	// User id
-	UserID string `json:"userId" gorm:"index:userIdx"`
+	UserID string `json:"userId" gorm:"index:userIdx;not_null"`
 }

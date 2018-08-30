@@ -12,8 +12,8 @@ import (
 	"log"
 	"net/http"
 
-	api "github.com/tjaroszewskiwork/go-user-messages/app/api"
-	store "github.com/tjaroszewskiwork/go-user-messages/app/store"
+	api "github.com/tomjaroszewskiwork/go-user-messages/app/api"
+	store "github.com/tomjaroszewskiwork/go-user-messages/app/store"
 )
 
 func main() {

@@ -1,7 +1,5 @@
 package store
 
-import "fmt"
-
 // GetMessage pulls the message from the store
 func GetMessage(messageID int64) *UserMessage {
 	var userMessage UserMessage
@@ -11,9 +9,8 @@ func GetMessage(messageID int64) *UserMessage {
 }
 
 // AddMessage adds a message to the store
-func AddMessage(message string) *UserMessage {
-	userMessage := UserMessage{Message: message}
+func AddMessage(userID string, message string) *UserMessage {
+	userMessage := UserMessage{UserID: userID, Message: message}
 	db.Debug().Save(&userMessage)
-	fmt.Println(userMessage.MessageID)
 	return &userMessage
 }

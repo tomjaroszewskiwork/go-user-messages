@@ -1,18 +1,22 @@
 package api
 
 import (
-	"net/http"
 	"encoding/json"
-	"strconv"
-	"github.com/gorilla/mux"
 	"fmt"
+	"net/http"
+	"path"
+	"strconv"
 
-	store "github.com/tjaroszewskiwork/go-user-messages/app/store" 
+	"github.com/gorilla/mux"
+
+	store "github.com/tomjaroszewskiwork/go-user-messages/app/store"
 )
 
 // AddMessage adds a users message to the store
 func AddMessage(w http.ResponseWriter, r *http.Request) {
 	var messageBody MessageBody
+
+	// Message validation
 	if r.Body == nil {
 		http.Error(w, "Please send a request body", http.StatusBadRequest)
 		return
@@ -22,9 +26,16 @@ func AddMessage(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	userMessage := store.AddMessage(messageBody.Message)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.Header().Set("Location", fmt.Sprintf("%s%s%d", r.Host, r.URL.Path,userMessage.MessageID) )
+	if messageBody.Message == "" {
+		http.Error(w, "Please send a request body with a message", http.StatusBadRequest)
+		return
+	}
+
+	vars := mux.Vars(r)
+	userID := vars["userId"]
+	userMessage := store.AddMessage(userID, messageBody.Message)
+	newLocation := fmt.Sprintf("%s%s/%d", r.Host, r.URL.Path, userMessage.MessageID)
+	w.Header().Set("Location", path.Clean(newLocation))
 	w.WriteHeader(http.StatusCreated)
 }
 

@@ -1,8 +1,8 @@
 package api
 
-import store "github.com/tjaroszewskiwork/go-user-messages/app/store"
+import store "github.com/tomjaroszewskiwork/go-user-messages/app/store"
 
-// A list of user messages
+// UserMessageList is a list of user messages
 type UserMessageList struct {
 
 	// If there are more messages for the user to pull

@@ -1,8 +1,6 @@
 package store
 
-import (
-	"time"
-)
+import "time"
 
 // UserMessage message for a user
 type UserMessage struct {

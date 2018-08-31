@@ -51,8 +51,10 @@ func addTestData() {
 }
 
 func TestGetMessage(t *testing.T) {
-	codeTest(t, "GET", "/v1/users/tom.j1/messages/100", 404)
+	codeTest(t, "GET", "/v1/users/fake.tom.j/messages/100", 404)
 	codeTest(t, "GET", "/v1/users/tom.j1/messages/11000", 404)
+	codeTest(t, "GET", "/v1/users/tom.j1/messages/-1", 404)
+	codeTest(t, "GET", "/v1/users/tom.j1/messages/abc", 400)
 	bodyResponseTest(t, "GET", "/v1/users/tom.j/messages/100", nil, 200, "message")
 }
 

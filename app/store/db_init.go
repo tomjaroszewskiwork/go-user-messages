@@ -6,19 +6,23 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
-var db *gorm.DB
+// DB Global database pointer
+var DB *gorm.DB
 
 // InitDB connects to the database and initializes the store
 func InitDB() {
 	var err error
-	db, err = gorm.Open("sqlite3", "test.db")
+	DB, err = gorm.Open("sqlite3", "test.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
 
-	db.Debug()
-
+	CleanDB()
 	// Migrate the schema
-	//db.Debug().DropTableIfExists(&UserMessage{})
-	db.AutoMigrate(&UserMessage{})
+	DB.AutoMigrate(&UserMessage{})
+}
+
+// CleanDB resets the table
+func CleanDB() {
+	DB.DropTableIfExists(&UserMessage{})
 }

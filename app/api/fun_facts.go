@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-// Fun facts about a users message
+// FunFacts about a users message
 type FunFacts struct {
 
 	// Does the message have exciting content

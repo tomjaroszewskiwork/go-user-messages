@@ -1,6 +1,6 @@
 package api
 
-// Passed in when creating a new message
+// MessageBody passed in when creating a new message
 type MessageBody struct {
 
 	// The new message to be stored

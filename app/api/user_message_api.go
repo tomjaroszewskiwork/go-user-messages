@@ -60,22 +60,8 @@ func GetFunFacts(w http.ResponseWriter, r *http.Request) {
 
 // GetMessage gets a specific message
 func GetMessage(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	userID := vars["userId"]
-	messageIDtring := vars["messageId"]
-	messageID, err := strconv.ParseInt(messageIDtring, 10, 64)
+	userMessage, err := getMessageEntity(w, r)
 	if err != nil {
-		http.Error(w, "Invalid message id", http.StatusBadRequest)
-		return
-	}
-	userMessage, err := store.GetMessage(userID, messageID)
-	if err != nil {
-		fmt.Println(err.Error())
-		http.Error(w, "Pulling store failed", http.StatusInternalServerError)
-		return
-	}
-	if userMessage.MessageID == 0 {
-		http.Error(w, "Message not found", http.StatusNotFound)
 		return
 	}
 	bytes, err := json.Marshal(userMessage)
@@ -92,4 +78,26 @@ func GetMessage(w http.ResponseWriter, r *http.Request) {
 func GetMessageList(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+}
+
+func getMessageEntity(w http.ResponseWriter, r *http.Request) (*store.UserMessage, error) {
+	vars := mux.Vars(r)
+	userID := vars["userId"]
+	messageIDtring := vars["messageId"]
+	messageID, err := strconv.ParseInt(messageIDtring, 10, 64)
+	if err != nil {
+		http.Error(w, "Invalid message id", http.StatusBadRequest)
+		return nil, err
+	}
+	userMessage, err := store.GetMessage(userID, messageID)
+	if err != nil {
+		fmt.Println(err.Error())
+		http.Error(w, "Pulling store failed", http.StatusInternalServerError)
+		return nil, err
+	}
+	if userMessage.MessageID == 0 {
+		http.Error(w, "Message not found for that user id", http.StatusNotFound)
+		return nil, err
+	}
+	return userMessage, err
 }

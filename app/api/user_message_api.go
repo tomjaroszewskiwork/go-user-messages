@@ -63,6 +63,17 @@ func DeleteMessage(w http.ResponseWriter, r *http.Request) {
 
 // GetFunFacts gets some fun facts about a message!
 func GetFunFacts(w http.ResponseWriter, r *http.Request) {
+	userMessage, err := getMessageEntity(w, r)
+	if err != nil || userMessage == nil {
+		return
+	}
+	funFacts := NewFuncFacts(userMessage.Message)
+	bytes, err := json.Marshal(funFacts)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(bytes)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 }

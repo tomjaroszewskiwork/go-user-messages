@@ -62,3 +62,16 @@ func TestDeleteMessage(t *testing.T) {
 	test.CodeTest(t, "DELETE", "/v1/users/bob.dole/messages/200", nil, 204)
 	test.CodeTest(t, "GET", "/v1/users/bob.dole/messages/200", nil, 404)
 }
+
+func TestGetFunFacts(t *testing.T) {
+	// Bad value tests
+	test.CodeTest(t, "GET", "/v1/users/fun.dude/messages/1/fun-facts", nil, 404)
+	test.CodeTest(t, "GET", "/v1/users/fun.dude/messages/notInteger/fun-facts", nil, 400)
+	// Message does not belong to fun.dude
+	test.CodeTest(t, "GET", "/v1/users/fun.dude/messages/100/fun-facts", nil, 404)
+
+	// Valid value tests
+	test.BodyResponseTest(t, "GET", "/v1/users/fun.dude/messages/150/fun-facts", nil, 200, "sad-facts")
+	test.BodyResponseTest(t, "GET", "/v1/users/fun.dude/messages/151/fun-facts", nil, 200, "exciting-facts")
+	test.BodyResponseTest(t, "GET", "/v1/users/fun.dude/messages/152/fun-facts", nil, 200, "palindrome-facts")
+}

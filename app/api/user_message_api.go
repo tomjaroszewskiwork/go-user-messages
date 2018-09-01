@@ -48,8 +48,17 @@ func AddMessage(w http.ResponseWriter, r *http.Request) {
 
 // DeleteMessage removes a users message from the store
 func DeleteMessage(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+	userMessage, err := getMessageEntity(w, r)
+	if err != nil || userMessage == nil {
+		return
+	}
+	err = store.DeleteMessage(userMessage)
+	if err != nil {
+		fmt.Println(err.Error())
+		http.Error(w, "Delete failed", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
 }
 
 // GetFunFacts gets some fun facts about a message!
@@ -61,7 +70,7 @@ func GetFunFacts(w http.ResponseWriter, r *http.Request) {
 // GetMessage gets a specific message
 func GetMessage(w http.ResponseWriter, r *http.Request) {
 	userMessage, err := getMessageEntity(w, r)
-	if err != nil {
+	if err != nil || userMessage == nil {
 		return
 	}
 	bytes, err := json.Marshal(userMessage)

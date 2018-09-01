@@ -24,3 +24,9 @@ func AddMessage(userID string, message string) (*UserMessage, error) {
 	err := DB.Create(&userMessage).Error
 	return &userMessage, err
 }
+
+// DeleteMessage deletes the given message
+func DeleteMessage(userMessage *UserMessage) error {
+	err := DB.Delete(&userMessage).Error
+	return err
+}

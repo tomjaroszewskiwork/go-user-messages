@@ -14,8 +14,20 @@ func GetMessage(userID string, messageID int64) (*UserMessage, error) {
 	if gorm.IsRecordNotFoundError(err) {
 		err = nil
 	}
-
 	return &userMessage, err
+}
+
+// GetMessages gets a list user messages based on the size and offset, sorted by generation
+func GetMessages(userID string, page int, size int, buffer int) ([]UserMessage, error) {
+	offsetStart := page * size
+	offsetEnd := (page+1)*size + buffer
+	var userMessages []UserMessage
+	err := DB.Where("user_id = ? ", userID).
+		Order("generated_at desc").
+		Offset(offsetStart).
+		Limit(offsetEnd).
+		Find(&userMessages).Error
+	return userMessages, err
 }
 
 // AddMessage adds a message to the store

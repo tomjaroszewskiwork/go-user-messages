@@ -96,6 +96,44 @@ func GetMessage(w http.ResponseWriter, r *http.Request) {
 
 // GetMessageList get a list of messages order by generation date, pageinated
 func GetMessageList(w http.ResponseWriter, r *http.Request) {
+	// Parses out the parameters
+	pageString := r.URL.Query().Get("page")
+	// Defaults to first page
+	if pageString == "" {
+		pageString = "0"
+	}
+	page, err := strconv.Atoi(pageString)
+	if err != nil || page < 0 {
+		http.Error(w, "Invalid page parameter, must be a positive integer", http.StatusBadRequest)
+		return
+	}
+
+	sizeString := r.URL.Query().Get("size")
+	// Defaults to 50
+	if sizeString == "" {
+		sizeString = "50"
+	}
+	size, err := strconv.Atoi(sizeString)
+	if err != nil || size < 1 || size > 100 {
+		http.Error(w, "Invalid size parameter, must be a integer between 1 and 100", http.StatusBadRequest)
+		return
+	}
+	vars := mux.Vars(r)
+	userID := vars["userId"]
+
+	messageEntities, err := store.GetMessages(userID, page, size, 1)
+	if err != nil {
+		fmt.Println(err.Error())
+		http.Error(w, "Pulling messages from store failed", http.StatusInternalServerError)
+		return
+	}
+	messageList := NewUserMessageList(messageEntities, size)
+	bytes, err := json.Marshal(messageList)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(bytes)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 }

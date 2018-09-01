@@ -11,3 +11,14 @@ type UserMessageList struct {
 	// List of user messages
 	Messages []store.UserMessage `json:"messages"`
 }
+
+// NewUserMessageList builds a new list object
+func NewUserMessageList(messages []store.UserMessage, requestSize int) *UserMessageList {
+	// Checks if there is more messages
+	hasMore := false
+	if len(messages) > requestSize {
+		hasMore = true
+		messages = messages[0 : len(messages)-1]
+	}
+	return &UserMessageList{HasMore: hasMore, Messages: messages}
+}

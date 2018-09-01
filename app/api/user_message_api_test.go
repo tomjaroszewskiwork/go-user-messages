@@ -30,6 +30,21 @@ func TestGetMessage(t *testing.T) {
 	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages/100", nil, 200, "message")
 }
 
+func TestGetMessageList(t *testing.T) {
+	// Bad value tests
+	test.CodeTest(t, "GET", "/v1/users/tom.j/messages?page=-1", nil, 400)
+	test.CodeTest(t, "GET", "/v1/users/tom.j/messages?size=-1", nil, 400)
+	test.CodeTest(t, "GET", "/v1/users/tom.j/messages?size=101", nil, 400)
+	test.CodeTest(t, "GET", "/v1/users/tom.j/messages?size=aaa", nil, 400)
+
+	// Valid call tests
+	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages", nil, 200, "all-messages")
+	test.BodyResponseTest(t, "GET", "/v1/users/new.user/messages", nil, 200, "empty-list")
+	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages?page=100", nil, 200, "empty-list")
+	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages?size=4", nil, 200, "partial-list-start")
+	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages?size=1&page=5", nil, 200, "partial-list-end")
+}
+
 func TestAddMessage(t *testing.T) {
 	// Bad value tests
 	test.CodeTest(t, "POST", "/v1/users/tom.j/messages", nil, 400)

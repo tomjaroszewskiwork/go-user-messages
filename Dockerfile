@@ -1,12 +1,14 @@
-FROM golang:1.10
 
-WORKDIR /go/src/app
-COPY . .
-
+FROM golang:1.10 as builder
+RUN mkdir /build
+ADD . /build/
+WORKDIR /build
 RUN go get -d -v ./...
-RUN go install -v ./...
-
-CMD ["app"]
+RUN GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o main .
+FROM scratch
+COPY --from=builder /build/main /app/
+WORKDIR /app
+CMD ["./main"]
 
 
 # # STEP 1 build executable binary

@@ -33,10 +33,14 @@
   name = "github.com/jinzhu/gorm"
   version = "1.9.1"
 
-[prune]
-  go-tests = true
-  unused-packages = true
-
 [[constraint]]
   name = "github.com/stretchr/testify"
   version = "1.2.2"
+
+[[constraint]]
+  name = "github.com/yudai/gojsondiff"
+  version = "1.0.0"
+
+[prune]
+  go-tests = true
+  unused-packages = true

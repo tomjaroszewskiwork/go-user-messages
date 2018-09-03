@@ -18,7 +18,9 @@ Because persistance is provided by sqllite gcc is required on PATH.
 
 ## To test
 
+```bash
 go test ./...
+```
 
 ## To build using docker
 

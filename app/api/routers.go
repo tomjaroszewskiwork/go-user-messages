@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// Route holds REST path defintions
+// Route holds a specific REST path defintions
 type Route struct {
 	Name        string
 	Method      string
@@ -36,6 +36,7 @@ func NewRouter() *mux.Router {
 	return router
 }
 
+// REST call to method mapping
 var routes = Routes{
 	Route{
 		"AddMessage",

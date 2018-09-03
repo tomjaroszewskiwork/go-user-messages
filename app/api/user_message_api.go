@@ -1,3 +1,5 @@
+// Package api deals with handling the REST requests, communcating between the web
+// component and the user messages store
 package api
 
 import (
@@ -12,7 +14,7 @@ import (
 	store "github.com/tomjaroszewskiwork/go-user-messages/app/store"
 )
 
-// AddMessage adds a users message to the store
+// AddMessage adds a users message to the store.
 func AddMessage(w http.ResponseWriter, r *http.Request) {
 	var messageBody MessageBody
 
@@ -46,7 +48,7 @@ func AddMessage(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-// DeleteMessage removes a users message from the store
+// DeleteMessage deletes a users message from the store.
 func DeleteMessage(w http.ResponseWriter, r *http.Request) {
 	userMessage, err := getMessageEntity(w, r)
 	if err != nil || userMessage == nil {
@@ -78,7 +80,7 @@ func GetFunFacts(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-// GetMessage gets a specific message
+// GetMessage gets a specific message for the user.
 func GetMessage(w http.ResponseWriter, r *http.Request) {
 	userMessage, err := getMessageEntity(w, r)
 	if err != nil || userMessage == nil {
@@ -94,7 +96,7 @@ func GetMessage(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-// GetMessageList get a list of messages order by generation date, pageinated
+// GetMessageList get a list of messages order by generation date, pageinated.
 func GetMessageList(w http.ResponseWriter, r *http.Request) {
 	// Parses out the parameters
 	pageString := r.URL.Query().Get("page")

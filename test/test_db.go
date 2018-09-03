@@ -11,6 +11,7 @@ import (
 func StartTestDB() {
 	store.InitDB()
 
+	// Some test data for the test cases
 	testInsert := `INSERT INTO user_messages (user_id, message_id, message, generated_at) VALUES
 	('tom.j', 100, 'test string', '2018-08-08T20:08:08'),
 	('tom.j', 101, 'lool', '2018-08-08T20:08:09'),

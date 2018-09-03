@@ -17,6 +17,7 @@ func InitDB() {
 		panic("failed to connect database")
 	}
 
+	// We woild not do this in a prod system!
 	CleanDB()
 	// Migrate the schema
 	DB.AutoMigrate(&UserMessage{})

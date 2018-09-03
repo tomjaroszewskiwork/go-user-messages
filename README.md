@@ -1,6 +1,6 @@
 # Go User Messages
 
-This is a go version of ![user-messages]https://github.com/tomjaroszewskiwork/user-messages.
+This is a go version of [user-messages](https://github.com/tomjaroszewskiwork/user-messages).
 
 First go-lang app! Don't be too mean.
 

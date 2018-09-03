@@ -2,3 +2,4 @@ test.db
 debug
 vendor/
 go-user-messages
+.vscode/

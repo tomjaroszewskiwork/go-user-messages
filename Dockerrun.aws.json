@@ -1,0 +1,11 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "tomjaroszewski/go-user-messages",
+        "Update": "true"
+    },
+    "Ports": [{
+        "ContainerPort": "8080"
+    }],
+    "Logging": "/var/log/nginx"
+}

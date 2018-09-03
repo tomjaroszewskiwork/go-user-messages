@@ -1,32 +1,38 @@
 # Go User Messages
 
-This is a go version of [user-messages]https://github.com/tomjaroszewskiwork/user-messages.
+This is a go version of [user-messages](https://github.com/tomjaroszewskiwork/user-messages).
 
 First go-lang app! Don't be too mean.
 
 ## To build
 
 Get Go 1.10
-
 Get [dep](https://github.com/golang/dep)
 
+```bash
 dep ensure
-
 go build
+```
 
 Because persistance is provided by sqllite gcc is required on PATH.
 
 ## To test
 
+```bash
 go test ./...
+```
 
 ## To build using docker
 
-
+```bash
+docker build -t go-user-messages .
+```
 
 ## To run docker image
 
-
+```bash
+docker run -it -p 8080:8080 --rm --name user-messages go-user-messages
+```
 
 ## API spec
 

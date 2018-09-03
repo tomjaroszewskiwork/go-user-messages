@@ -40,7 +40,7 @@ Default port is 8080.
 
 Sample API call: http://localhost:8080/v1/users/tom.j/messages
 
-Please see swagger.json for full API spec details.
+Please see [swagger.yaml](https://github.com/tomjaroszewskiwork/go-user-messages/blob/master/swagger.yaml) for full API spec details.
 
 ## Architecture Overview
 
@@ -53,12 +53,3 @@ REST API method handlers then call on store package which wraps the calls around
 Finally the data is stored in a sql lite database.
 
 When deployed into Elastic Beanstalk in AWS there is a ngix load balancer in front of the application.
-
-
-
-
-
-
-
-
-

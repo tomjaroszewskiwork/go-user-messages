@@ -51,5 +51,3 @@ Application runs Gorrilla mux router listening in on port 8080.
 REST API method handlers then call on store package which wraps the calls around GORM.
 
 Finally the data is stored in a sql lite database.
-
-When deployed into Elastic Beanstalk in AWS there is a ngix load balancer in front of the application.

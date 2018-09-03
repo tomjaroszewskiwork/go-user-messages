@@ -7,12 +7,12 @@ First go-lang app! Don't be too mean.
 ## To build
 
 Get Go 1.10
-
 Get [dep](https://github.com/golang/dep)
 
+```bash
 dep ensure
-
 go build
+```
 
 Because persistance is provided by sqllite gcc is required on PATH.
 

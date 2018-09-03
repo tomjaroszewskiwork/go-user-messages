@@ -24,11 +24,15 @@ go test ./...
 
 ## To build using docker
 
-
+```bash
+docker build -t go-user-messages .
+```
 
 ## To run docker image
 
-
+```bash
+docker run -it -p 8080:8080 --rm --name user-messages go-user-messages
+```
 
 ## API spec
 

@@ -5,7 +5,6 @@
  *
  * API version: v1
  */
-
 package main
 
 import (

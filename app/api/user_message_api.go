@@ -75,8 +75,8 @@ func GetFunFacts(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.Write(bytes)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(bytes)
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -91,8 +91,8 @@ func GetMessage(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.Write(bytes)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(bytes)
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -135,8 +135,8 @@ func GetMessageList(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.Write(bytes)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(bytes)
 	w.WriteHeader(http.StatusOK)
 }
 

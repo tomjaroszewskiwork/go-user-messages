@@ -123,7 +123,7 @@ func GetMessageList(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	userID := vars["userId"]
 
-	messageEntities, err := store.GetMessages(userID, page, size, 1)
+	messageEntities, err := store.GetMessages(userID, page, size)
 	if err != nil {
 		fmt.Println(err.Error())
 		http.Error(w, "Pulling messages from store failed", http.StatusInternalServerError)

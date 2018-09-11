@@ -18,7 +18,7 @@ func NewUserMessageList(messages []store.UserMessage, requestSize int) *UserMess
 	hasMore := false
 	if len(messages) > requestSize {
 		hasMore = true
-		messages = messages[0 : len(messages)-1]
+		messages = messages[0:requestSize]
 	}
 	return &UserMessageList{HasMore: hasMore, Messages: messages}
 }

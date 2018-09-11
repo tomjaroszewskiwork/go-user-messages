@@ -41,8 +41,8 @@ func TestGetMessageList(t *testing.T) {
 	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages", nil, 200, "all-messages")
 	test.BodyResponseTest(t, "GET", "/v1/users/new.user/messages", nil, 200, "empty-list")
 	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages?page=100", nil, 200, "empty-list")
-	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages?size=4", nil, 200, "partial-list-start")
-	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages?size=1&page=5", nil, 200, "partial-list-end")
+	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages?size=5", nil, 200, "partial-list-start")
+	test.BodyResponseTest(t, "GET", "/v1/users/tom.j/messages?size=1&page=6", nil, 200, "partial-list-end")
 }
 
 func TestAddMessage(t *testing.T) {

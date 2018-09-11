@@ -18,15 +18,15 @@ func GetMessage(userID string, messageID int64) (*UserMessage, error) {
 	return &userMessage, err
 }
 
-// GetMessages gets a list user messages based on the page, size and offset, sorted by generation times
-func GetMessages(userID string, page int, size int, buffer int) ([]UserMessage, error) {
-	offsetStart := page * size
-	offsetEnd := (page+1)*size + buffer
+// GetMessages gets a list user messages based on the page, size and offset + 1 extra message if exists
+// sorted by generation times
+func GetMessages(userID string, page int, size int) ([]UserMessage, error) {
+	offsetStart := page*size - 1
 	var userMessages []UserMessage
 	err := DB.Where("user_id = ? ", userID).
 		Order("generated_at desc").
 		Offset(offsetStart).
-		Limit(offsetEnd).
+		Limit(size + 1).
 		Find(&userMessages).Error
 	return userMessages, err
 }
